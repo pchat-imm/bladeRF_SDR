@@ -393,8 +393,8 @@ Making USRP object with args 'type=soapy'
 Error: setting gain for transmitter 0. Tx gain (i.e., 89.0 dB) is out-of-range. Range is [-89.75000762939453, 0.0] dB in steps of 0.25 dB.
 ```
 ### 2. Speedtest
-from mobile phone that connect to the CPE (the UE)
-<img src = "https://github.com/pchat-imm/bladeRF_SDR/assets/40858099/a755d358-9446-49b5-9671-cffdc2a63fc3" width="60%" height="auto"> <br>
+- from mobile phone that connect to the CPE (the UE) <br>
+<img src = "https://github.com/pchat-imm/bladeRF_SDR/assets/40858099/a755d358-9446-49b5-9671-cffdc2a63fc3" width="30%" height="auto"> <br>
 
 - gnb trace
 ```
@@ -477,8 +477,9 @@ from mobile phone that connect to the CPE (the UE)
 ```
 
 ### 3. Iperf
-- captured image from mobile phone, using `iperf client`
-<img src="https://github.com/pchat-imm/bladeRF_SDR/assets/40858099/6a4357a5-90c2-4b8c-81e0-f5a5e7132891" width="60%" height="auto">
+- captured image from mobile phone, using `iperf client` <br>
+<img src="https://github.com/pchat-imm/bladeRF_SDR/assets/40858099/6a4357a5-90c2-4b8c-81e0-f5a5e7132891" width="30%" height="auto"> <br>
+
 - gnb trace
 
 ```

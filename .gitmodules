@@ -1,0 +1,3 @@
+[submodule "SoapyBladeRF"]
+	path = SoapyBladeRF
+	url = https://github.com/pothosware/SoapyBladeRF

@@ -1,8 +1,7 @@
 # bladeRF_SDR
 ## purpose: to use BladeRF as SDR for the RAN system
 - follow https://github.com/srsran/srsRAN_Project/discussions/222
-
-
+- https://github.com/Nuand/bladeRF/wiki/Getting-Started%3A-Linux
 
 <!-- toc -->
 
@@ -20,6 +19,13 @@
     + [3.2 SoapyUHD](#32-soapyuhd)
   * [3. open5GS](#3-open5gs)
   * [4. srsRAN_Project](#4-srsran_project)
+- [Config](#config)
+  * [1. Config bladeRF SDR to be able to use as gNB](#1-config-bladerf-sdr-to-be-able-to-use-as-gnb)
+  * [2. gNB](#2-gnb)
+- [Result](#result)
+  * [1. gnb in bladerf](#1-gnb-in-bladerf)
+  * [2. Speedtest](#2-speedtest)
+  * [3. Iperf](#3-iperf)
 
 <!-- tocstop -->
 
@@ -85,6 +91,21 @@ dependencies
 
 #### 2.1. libBladeRF
 from: https://github.com/nuand/bladeRF
+Note: BladeRF A4 we had already fetched with the latest FPGA image and the firmware image
+- check the FPGA and firmware version
+```
+bladeRF-cli -i
+
+bladeRF> version
+
+  bladeRF-cli version:        1.9.0-git-fe3304d7
+  libbladeRF version:         2.5.1-git-fe3304d7
+
+  Firmware version:           2.4.0-git-a3d5c55f
+  FPGA version:               0.15.0
+```
+
+**Procedure**
 1. clone
 ```
 git clone https://github.com/Nuand/bladeRF.git
@@ -96,6 +117,11 @@ from: https://github.com/Nuand/bladeRF/tree/master/host
 dependencies
 - [libusb](https://libusb.info/)
 - [CMake](https://cmake.org/)
+
+The bladeRF we have already installed latest FPGA image and firmware image. \
+If it's installed yet, follow: 
+- https://github.com/Nuand/bladeRF/wiki/Getting-Started%3A-Linux 
+- https://github.com/Nuand/bladeRF/wiki#user-content-bladeRF_software_buildinstallation
 
 build
 ```
@@ -168,14 +194,21 @@ dependencies
 - boost libraries - http://www.boost.org/
 
 #### 3.1 UHD
-from: https://files.ettus.com/manual/page_build_guide.html
-
-- setting up dependencies on Ubuntu
+from: https://files.ettus.com/manual/page_build_guide.html \
+from: https://kb.ettus.com/Building_and_Installing_the_USRP_Open-Source_Toolchain_(UHD_and_GNU_Radio)_on_Linux#Update_and_Install_dependencies \
+- install dependencies
+for Ubuntu 24.04
 ```
-sudo apt-get install autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool \
-g++ git inetutils-tools libboost-all-dev libncurses5 libncurses5-dev libusb-1.0-0 libusb-1.0-0-dev \
-libusb-dev python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools \
-python3-ruamel.yaml 
+   sudo apt-get -y install autoconf automake build-essential ccache cmake cpufrequtils doxygen ethtool fort77 g++ gir1.2-gtk-3.0 git gobject-introspection gpsd gpsd-clients inetutils-tools libasound2-dev libboost-all-dev libcomedi-dev libcppunit-dev libfftw3-bin libfftw3-dev libfftw3-doc libfontconfig1-dev libgmp-dev libgps-dev libgsl-dev liblog4cpp5-dev libncurses5 libncurses5-dev libpulse-dev libqt5opengl5-dev libqwt-qt5-dev libsdl1.2-dev libtool libudev-dev libusb-1.0-0 libusb-1.0-0-dev libusb-dev libxi-dev libxrender-dev libzmq3-dev libzmq5 ncurses-bin python3-cheetah python3-click python3-click-plugins python3-click-threading python3-dev python3-docutils python3-gi python3-gi-cairo python3-gps python3-lxml python3-mako python3-numpy python3-opengl python3-pyqt5 python3-requests python3-scipy python3-setuptools python3-six python3-sphinx python3-yaml python3-zmq python3-ruamel.yaml swig wget python3-pygccxml libjs-mathjax python3-pyqtgraph
+```
+- install BOOST
+from https://github.com/YosysHQ/nextpnr/issues/129
+```
+sudo apt-get install libboost-dev libboost-filesystem-dev libboost-thread-dev libboost-program-options-dev libboost-python-dev libboost-dev
+```
+from: https://techoverflow.net/2021/07/08/how-to-fix-cmake-error-could-not-find-a-package-configuration-file-provided-by-boost_unit_test_framework/
+```
+sudo apt -y install libboost-test-dev
 ```
 - getting source code
 ```
@@ -232,10 +265,8 @@ Device Address:
 from: https://open5gs.org/open5gs/docs/guide/02-building-open5gs-from-sources/
 
 - install `open5GS`
-- config to `sample.yaml`
+- config `sample.yaml`
 - config and get `open5GS webui`
-
-
 
 using binaries provided by Ettus
 ```
@@ -265,7 +296,8 @@ sudo make install
 ```
 
 ## Config
-### 1. Config bladeRF to be able to use as gNB
+from: https://github.com/srsran/srsRAN_Project/discussions/222
+### 1. Config bladeRF SDR to be able to use as gNB
 1. Remove the reference to `time_source` in `srsRAN_Project/lib/radio/uhd/radio_uhd_device.h:254`
 ```
 #if UHD_VERSION < 3140099
@@ -298,13 +330,35 @@ static constexpr double RECEIVE_TIMEOUT_S = 0;
 ```
 4. then build `srsRAN_Project` again
 
-5. change `bladerf_set_gain_stage` to `bladerf_set_gain`. Then build `SoapyBladeRF` again
+5. in repository `SoapyBladeRF/bladeRF_Settings.cpp` 
+- change `bladerf_set_gain_stage` to `bladerf_set_gain`. Then build `SoapyBladeRF` again
 ```
 void bladeRF_SoapySDR::setGain(const int direction, const size_t channel, const std::string &name, const double value)
 {
+    // @1mm - comment for bladerf to work with srsRAN
     // int ret = bladerf_set_gain_stage(_dev, _toch(direction, channel), name.c_str(), bladerf_gain(std::round(value)));
-    ret = bladerf_set_gain(_dev, _toch(direction, channel), bladerf_gain(std::round(value)));
+    int ret = bladerf_set_gain(_dev, _toch(direction, channel), bladerf_gain(std::round(value)));
+
+    if (ret != 0)
+    {
+        SoapySDR::logf(SOAPY_SDR_ERROR, "bladerf_set_gain_stage(%s, %f) returned %s", name.c_str(), value, _err2str(ret).c_str());
+        throw std::runtime_error("setGain("+name+") " + _err2str(ret));
+    }
+}
 ```
+- redefinition of `bladeRF=~bladeRF` to reset device. Then build `SoapyBladeRF` again
+```
+// @1mm - reset bladerf to combat gNB's transfer timeout
+bladeRF_SoapySDR::~bladeRF_SoapySDR(void)
+{
+    SoapySDR::logf(SOAPY_SDR_INFO, "bladerf_close()");
+     if (_dev != NULL){
+        bladerf_device_reset(_dev);
+    //    bladerf_close(_dev);
+     } 
+}
+```
+
 ### 2. gNB 
 ```
 amf:

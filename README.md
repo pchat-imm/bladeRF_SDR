@@ -134,6 +134,15 @@ sudo ldconfig
 ```
 note: choose `[option]` from the site (https://github.com/Nuand/bladeRF/tree/master/host)
 
+in case you cannot `cmake` because of `no libusb1.0-0-dev`, you can follow \
+https://github.com/Nuand/bladeRF/wiki/Getting-Started%3A-Linux 
+```
+cd host
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DINSTALL_UDEV_RULES=ON ../
+```
+
 5. attach bladeRF to the fastest USB port
 6. check device with `bladeRF-cli -p` 
 ```

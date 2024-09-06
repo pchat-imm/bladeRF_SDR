@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15" version="24.7.12" pages="3">
   <diagram name="IM_diagram" id="SYaeQD1KlItsXsTcQAGz">
-    <mxGraphModel dx="2563" dy="1785" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2232" dy="1561" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -441,6 +441,12 @@
             <mxPoint x="-740" y="890" as="sourcePoint" />
             <mxPoint x="-740" y="850" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="FU5GVsexRA1cCDNJQtCJ-50" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn2.iconfinder.com/data/icons/crystalproject/16x16/actions/oscilloscope.png" vertex="1" parent="1">
+          <mxGeometry x="-1320" y="400" width="37.5" height="37.5" as="geometry" />
+        </mxCell>
+        <mxCell id="FU5GVsexRA1cCDNJQtCJ-51" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn2.iconfinder.com/data/icons/crystalproject/16x16/actions/oscilloscope.png" vertex="1" parent="1">
+          <mxGeometry x="-1320" y="850" width="37.5" height="37.5" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
